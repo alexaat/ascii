@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ascii Art Result</title>
+</head>
+
+<style>
+    body {
+        background-image: url("./images/2.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+
+<body>
+    <br>
+        <div align="center">  
+        <pre>{{.}}</pre>
+
+        <form action="/download" method="POST">
+            <label>Download As:  </label> 
+            <select name="format" id="format">
+                <option value="text">text</option>
+                <option value="zip">zip</option>
+            </select>  
+            <br>            
+            <br>
+            <input type="submit" value="Download" style="border-radius:5px;height:30px;width:100px">
+        </form>       
+        <br>       
+        <button type="button" style="border-radius:5px;height:30px;width:100px" onclick="location.href = '/';">Go Back</button>
+        </div>
+    </body>
+
+</html>
