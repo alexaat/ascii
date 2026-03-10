@@ -7,18 +7,15 @@ import (
 	"net/http"
 	//"os"
 	//"strconv"
-	"embed"
 	"text/template"
 )
 
 var (
 	filePath          = "data.txt"
 	errorTemplatePath = "templates/error.html"
-	templatePath      = "templates/index.html"
+	templatePath      = "ascii/templates/index.html"
 	zipFilePath       = "archive.zip"
 )
-
-var templateFS embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
