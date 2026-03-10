@@ -8,7 +8,7 @@ import (
 	//"os"
 	//"strconv"
 	"embed"
-	"html/template"
+	"text/template"
 )
 
 var (
@@ -31,15 +31,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
 
-	t := template.Must(template.ParseFS(templateFS, "/templates/index.html"))
-
 	// Render the index.html template
-	// t, err := template.ParseFiles(templatePath)
-	// if err != nil {
-	// 	showError(w, "404 TEMPLATE NOT FOUND: "+err.Error(), http.StatusNotFound)
-	// 	return
-	// }
-	err := t.ExecuteTemplate(w, "base", nil)
+	t, err := template.ParseFiles(templatePath)
+	if err != nil {
+		showError(w, "404 TEMPLATE NOT FOUND: "+err.Error(), http.StatusNotFound)
+		return
+	}
+	err = t.ExecuteTemplate(w, "base", nil)
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR: "+err.Error(), http.StatusInternalServerError)
 		return
