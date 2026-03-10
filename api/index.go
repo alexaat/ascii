@@ -2,12 +2,12 @@ package handler
 
 import (
 	//"archive/zip"
-	//"fmt"
+	"fmt"
 	//"io"
 	"net/http"
 	//"os"
 	//"strconv"
-	"text/template"
+	//"text/template"
 )
 
 var (
@@ -19,6 +19,9 @@ var (
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
+	fileServer := http.FileServer(http.Dir("./images"))
+	http.Handle("/images/", http.StripPrefix("/images", fileServer))
+
 	if r.URL.Path == "/" {
 		formHandler(w, r)
 	}
@@ -27,29 +30,15 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
-	// if r.Method == "GET" {
-	// 	showError(w, "400 BAD REQUEST", http.StatusBadRequest)
-	// 	// return here will stop execution this function
-	// 	return
-	// }
-	// Render the index.html template
-	t, err := template.ParseFiles(templatePath)
-	if err != nil {
-		showError(w, "404 TEMPLATE NOT FOUND", http.StatusNotFound)
-		return
-	}
-	err = t.Execute(w, nil)
-	if err != nil {
-		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
-		return
-	}
+	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
 
 // Render the error.html template
 func showError(w http.ResponseWriter, message string, statusCode int) {
-	t, err := template.ParseFiles(errorTemplatePath)
-	if err == nil {
-		w.WriteHeader(statusCode)
-		t.Execute(w, message)
-	}
+	fmt.Fprintf(w, "<h1>ERROR</h1>")
+	// t, err := template.ParseFiles(errorTemplatePath)
+	// if err == nil {
+	// 	w.WriteHeader(statusCode)
+	// 	t.Execute(w, message)
+	// }
 }
