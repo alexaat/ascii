@@ -8,7 +8,7 @@ import (
 	//"os"
 	//"strconv"
 	"embed"
-	"text/template"
+	"html/template"
 )
 
 var (
@@ -31,7 +31,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
 
-	t := template.Must(template.ParseFS(templateFS, "../templates/index.html"))
+	t := template.Must(template.ParseFS(templateFS, "/templates/index.html"))
 
 	// Render the index.html template
 	// t, err := template.ParseFiles(templatePath)
