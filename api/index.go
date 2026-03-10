@@ -39,7 +39,7 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	// 	showError(w, "404 TEMPLATE NOT FOUND: "+err.Error(), http.StatusNotFound)
 	// 	return
 	// }
-	err := t.Execute(w, nil)
+	err := t.ExecuteTemplate(w, "base", nil)
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR: "+err.Error(), http.StatusInternalServerError)
 		return
