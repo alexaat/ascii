@@ -15,11 +15,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	const portNumber = ":8080"
 	http.Handle("/images/", http.StripPrefix("/images", fileServer))
 
-	fmt.Printf("Starting application on port %s\n", portNumber)
-	err := http.ListenAndServe(portNumber, nil)
-	if err != nil {
-		fmt.Println("\nCannot start server")
-	}
+	http.HandleFunc("/", formHandler)
 	//fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
 
