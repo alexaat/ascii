@@ -1,28 +1,24 @@
-package main
+package handler
 
 import (
-
 	"fmt"
 
 	"net/http"
-
-
-
 )
 
-func main() {
+// func main() {
 
-	http.HandleFunc("/", formHandler)
+// 	http.HandleFunc("/", formHandler)
 
-	const portNumber = ":8080"
-	err := http.ListenAndServe(portNumber, nil)
-	if err != nil {
-		fmt.Println("\nCannot start server")
-	}
-}
+// 	const portNumber = ":8080"
+// 	err := http.ListenAndServe(portNumber, nil)
+// 	if err != nil {
+// 		fmt.Println("\nCannot start server")
+// 	}
+// }
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello world");
+	fmt.Fprint(w, "Hello world")
 }
 
 /*
