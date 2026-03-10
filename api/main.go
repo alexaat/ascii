@@ -1,7 +1,7 @@
 // Ascii-art-web
 // We are going to use http library as the name implies, it's one that deals with the web.
 // Golang was built from the ground up to be aware of the web to be able to deal with it in a meaningful fashion.
-package main
+package handler
 
 import (
 	"archive/zip"
