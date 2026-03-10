@@ -19,8 +19,8 @@ var (
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	fileServer := http.FileServer(http.Dir("./images"))
-	http.Handle("/images/", http.StripPrefix("/images", fileServer))
+	//fileServer := http.FileServer(http.Dir("./images"))
+	//http.Handle("/images/", http.StripPrefix("/images", fileServer))
 
 	if r.URL.Path == "/" {
 		formHandler(w, r)
