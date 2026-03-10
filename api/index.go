@@ -47,7 +47,8 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 
 // Render the error.html template
 func showError(w http.ResponseWriter, message string, statusCode int) {
-	fmt.Fprintf(w, "<h1>ERROR</h1>")
+	fmt.Fprintf(w, "<h1>ERROR </h1>")
+	fmt.Fprintf(w, message)
 	// t, err := template.ParseFiles(errorTemplatePath)
 	// if err == nil {
 	// 	w.WriteHeader(statusCode)
