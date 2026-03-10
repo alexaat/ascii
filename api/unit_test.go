@@ -11,12 +11,12 @@ import (
 func TestBanners(t *testing.T) {
 	casesMap := make(map[string]string)
 
-	str, err := readFile("example01.txt")
+	str, err := ReadFile("example01.txt")
 	if err == nil {
 		casesMap["123??"] = str
 	}
 
-	str, err = readFile("example00.txt")
+	str, err = ReadFile("example00.txt")
 	if err == nil {
 		casesMap[`{123}
 			<Hello> (World)!`] = str
@@ -25,7 +25,7 @@ func TestBanners(t *testing.T) {
 	execute(t, casesMap, "standard")
 
 	casesMap = make(map[string]string)
-	str, err = readFile("example02.txt")
+	str, err = ReadFile("example02.txt")
 	if err == nil {
 		casesMap["$% \"="] = str
 	}
@@ -33,7 +33,7 @@ func TestBanners(t *testing.T) {
 	execute(t, casesMap, "shadow")
 
 	casesMap = make(map[string]string)
-	str, err = readFile("example03.txt")
+	str, err = ReadFile("example03.txt")
 	if err == nil {
 		casesMap["123 T/fs#R"] = str
 	}

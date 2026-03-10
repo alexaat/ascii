@@ -76,7 +76,7 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		banner := r.FormValue("banner")
 		text := r.FormValue("request")
-		b, err := readFile(banner + ".txt")
+		b, err := ReadFile(banner + ".txt")
 		if err != nil {
 			showError(w, "404 BANNER NOT FOUND", http.StatusNotFound)
 			// return here will stop execution this function
@@ -84,7 +84,7 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		myMap := parseBanner(b)
 		result := printMessageIntoString(text, myMap)
-		err = writeToFile(filePath, []byte(result))
+		err = WriteToFile(filePath, []byte(result))
 		if err != nil {
 			showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 			return
@@ -115,7 +115,7 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 
 		if format == "zip" {
 			createZip(w)
-			data, err := readFile(zipFilePath)
+			data, err := ReadFile(zipFilePath)
 			if err != nil {
 				showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 				return
@@ -129,7 +129,7 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if format == "text" {
-			data, err := readFile(filePath)
+			data, err := ReadFile(filePath)
 			if err != nil {
 				showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 				return
@@ -187,23 +187,4 @@ func createZip(w http.ResponseWriter) {
 	}
 
 	zipWriter.Close()
-}
-
-var (
-	filePath          = "data.txt"
-	errorTemplatePath = "templates/error.html"
-	templatePath      = "templates/index.html"
-	zipFilePath       = "archive.zip"
-)
-
-func readFile(s string) (string, error) {
-	data, err := os.ReadFile(s)
-	if err != nil {
-		return "", err
-	}
-	return string(data), nil
-}
-
-func writeToFile(fileName string, data []byte) error {
-	return os.WriteFile(fileName, data, 0644)
 }
