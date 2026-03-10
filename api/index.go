@@ -31,17 +31,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
 
-	// Render the index.html template
-	t, err := template.ParseFiles(templatePath)
-	if err != nil {
-		showError(w, "404 TEMPLATE NOT FOUND "+err.Error(), http.StatusNotFound)
-		return
-	}
-	err = t.Execute(w, nil)
-	if err != nil {
-		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
-		return
-	}
+	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+
+	tmpl.Execute(w, nil)
+
 	//fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
 
