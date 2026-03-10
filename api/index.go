@@ -11,11 +11,15 @@ import (
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fileServer := http.FileServer(http.Dir("./images"))
-	const portNumber = ":8080"
-	http.Handle("/images/", http.StripPrefix("/images", fileServer))
 
-	http.HandleFunc("/", formHandler)
+	if r.URL.Path == "/" {
+		formHandler(w,r)
+	}
+
+
+	
+
+
 	//fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
 
