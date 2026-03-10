@@ -13,7 +13,7 @@ import (
 var (
 	filePath          = "data.txt"
 	errorTemplatePath = "templates/error.html"
-	templatePath      = "/api/templates/index.html"
+	templatePath      = "templates/index.html"
 	zipFilePath       = "archive.zip"
 )
 
