@@ -7,7 +7,7 @@ import (
 	"net/http"
 	//"os"
 	//"strconv"
-	"text/template"
+	"html/template"
 )
 
 var (
