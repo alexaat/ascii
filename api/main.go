@@ -60,7 +60,7 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Render the index.html template
-	t, err := template.ParseFiles(templatePath)
+	t, err := template.ParseFiles(TemplatePath)
 	if err != nil {
 		showError(w, "404 TEMPLATE NOT FOUND", http.StatusNotFound)
 		return
@@ -84,7 +84,7 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		myMap := parseBanner(b)
 		result := printMessageIntoString(text, myMap)
-		err = WriteToFile(filePath, []byte(result))
+		err = WriteToFile(FilePath, []byte(result))
 		if err != nil {
 			showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 			return
@@ -115,30 +115,30 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 
 		if format == "zip" {
 			createZip(w)
-			data, err := ReadFile(zipFilePath)
+			data, err := ReadFile(ZipFilePath)
 			if err != nil {
 				showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 				return
 			}
 			contentLength := len([]byte(data))
-			w.Header().Set("Content-Disposition", "attachment; filename="+zipFilePath)
+			w.Header().Set("Content-Disposition", "attachment; filename="+ZipFilePath)
 			w.Header().Set("Content-Type", "application/zip")
 			w.Header().Set("Content-Length", strconv.Itoa(contentLength))
-			http.ServeFile(w, r, zipFilePath)
+			http.ServeFile(w, r, ZipFilePath)
 			return
 		}
 
 		if format == "text" {
-			data, err := ReadFile(filePath)
+			data, err := ReadFile(FilePath)
 			if err != nil {
 				showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 				return
 			}
 			contentLength := len([]byte(data))
-			w.Header().Set("Content-Disposition", "attachment; filename="+filePath)
+			w.Header().Set("Content-Disposition", "attachment; filename="+FilePath)
 			w.Header().Set("Content-Type", "text/plain")
 			w.Header().Set("Content-Length", strconv.Itoa(contentLength))
-			http.ServeFile(w, r, filePath)
+			http.ServeFile(w, r, FilePath)
 			return
 		}
 		// If forrmat is not "text" nor "zip" then show error
@@ -151,7 +151,7 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 
 // Render the error.html template
 func showError(w http.ResponseWriter, message string, statusCode int) {
-	t, err := template.ParseFiles(errorTemplatePath)
+	t, err := template.ParseFiles(ErrorTemplatePath)
 	if err == nil {
 		w.WriteHeader(statusCode)
 		t.Execute(w, message)
@@ -159,7 +159,7 @@ func showError(w http.ResponseWriter, message string, statusCode int) {
 }
 
 func createZip(w http.ResponseWriter) {
-	archive, err := os.Create(zipFilePath)
+	archive, err := os.Create(ZipFilePath)
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return
@@ -168,14 +168,14 @@ func createZip(w http.ResponseWriter) {
 
 	zipWriter := zip.NewWriter(archive)
 
-	f1, err := os.Open(filePath)
+	f1, err := os.Open(FilePath)
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return
 	}
 	defer f1.Close()
 
-	w1, err := zipWriter.Create(filePath)
+	w1, err := zipWriter.Create(FilePath)
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return

@@ -5,10 +5,10 @@ import (
 )
 
 var (
-	filePath          = "data.txt"
-	errorTemplatePath = "templates/error.html"
-	templatePath      = "templates/index.html"
-	zipFilePath       = "archive.zip"
+	FilePath          = "data.txt"
+	ErrorTemplatePath = "templates/error.html"
+	TemplatePath      = "templates/index.html"
+	ZipFilePath       = "archive.zip"
 )
 
 func ReadFile(s string) (string, error) {

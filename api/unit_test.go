@@ -217,7 +217,7 @@ func TestStatus400ResultHandlerDifferentMethod(t *testing.T) {
 }
 
 func TestStatus404FormHandlerTemplateNotFound(t *testing.T) {
-	templatePath = "templates/1234.html"
+	TemplatePath = "templates/1234.html"
 
 	// Create a request to pass to our handler. We don't have any query parameters for now, so we'll
 	// pass 'nil' as the third parameter.
