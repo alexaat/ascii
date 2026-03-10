@@ -13,7 +13,7 @@ import (
 var (
 	filePath          = "data.txt"
 	errorTemplatePath = "templates/error.html"
-	templatePath      = "templates/index.html"
+	templatePath      = "api/templates/index.html"
 	zipFilePath       = "archive.zip"
 )
 
@@ -34,7 +34,7 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the index.html template
 	t, err := template.ParseFiles(templatePath)
 	if err != nil {
-		showError(w, "404 TEMPLATE NOT FOUND", http.StatusNotFound)
+		showError(w, "404 TEMPLATE NOT FOUND "+err.Error(), http.StatusNotFound)
 		return
 	}
 	err = t.Execute(w, nil)
