@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"embed"
 	//"archive/zip"
 	"fmt"
 	//"io"
@@ -17,8 +18,13 @@ var (
 	zipFilePath       = "archive.zip"
 )
 
+var templatesFS embed.FS
+
 func Handler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+	tmpl := template.Must(template.ParseFS(
+		templatesFS,
+		"../templates/index.html",
+	))
 
 	data := map[string]string{
 		"Title": "Vercel Go App",
