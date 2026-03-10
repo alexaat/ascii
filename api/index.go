@@ -8,7 +8,7 @@ import (
 	//"os"
 	//"strconv"
 	"embed"
-	"html/template"
+	"text/template"
 )
 
 var (
