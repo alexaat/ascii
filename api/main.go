@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-
 	"net/http"
 )
 
@@ -17,8 +15,8 @@ import (
 // 	}
 // }
 
-func formHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello world")
+func Handler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello from Go on Vercel!"))
 }
 
 /*
