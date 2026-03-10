@@ -17,23 +17,21 @@ var (
 	zipFilePath       = "archive.zip"
 )
 
-
 func Handler(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path == "/" {
-		formHandler(w,r)
+		formHandler(w, r)
 	}
-
 
 	//fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		showError(w, "400 BAD REQUEST", http.StatusBadRequest)
-		// return here will stop execution this function
-		return
-	}
+	// if r.Method == "GET" {
+	// 	showError(w, "400 BAD REQUEST", http.StatusBadRequest)
+	// 	// return here will stop execution this function
+	// 	return
+	// }
 	// Render the index.html template
 	t, err := template.ParseFiles(templatePath)
 	if err != nil {
