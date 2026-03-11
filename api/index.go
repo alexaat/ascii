@@ -10,7 +10,7 @@ var templateFS embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	tmpl := template.Must(template.ParseFS(templateFS, "../templates/index.html"))
+	tmpl := template.Must(template.ParseFS(templateFS, "templates/index.html"))
 
 	data := struct {
 		Title   string
@@ -25,7 +25,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 	}
 }
-
 
 /*
 package handler
