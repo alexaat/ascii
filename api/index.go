@@ -1,6 +1,36 @@
 package handler
 
 import (
+	"embed"
+	"html/template"
+	"net/http"
+)
+
+var templateFS embed.FS
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+
+	tmpl := template.Must(template.ParseFS(templateFS, "../templates/index.html"))
+
+	data := struct {
+		Title   string
+		Message string
+	}{
+		Title:   "Go on Vercel",
+		Message: "Your Go app deployed successfully 🚀",
+	}
+
+	err := tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+}
+
+
+/*
+package handler
+
+import (
 	//"archive/zip"
 	"fmt"
 	//"io"
@@ -53,3 +83,4 @@ func showError(w http.ResponseWriter, message string, statusCode int) {
 	// 	t.Execute(w, message)
 	// }
 }
+*/
