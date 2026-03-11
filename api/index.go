@@ -1,4 +1,4 @@
-package handler
+package main
 
 import (
 	"embed"
@@ -6,21 +6,24 @@ import (
 	"net/http"
 )
 
-var templateFS embed.FS
+//go:embed templates/index.html
+var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	tmpl := template.Must(template.ParseFS(templateFS, "templates/index.html"))
-
-	data := struct {
-		Title   string
-		Message string
-	}{
-		Title:   "Go on Vercel",
-		Message: "Your Go app deployed successfully 🚀",
+	tmpl, err := template.ParseFS(templates, "templates/index.html")
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
 	}
 
-	err := tmpl.Execute(w, data)
+	data := struct {
+		Title string
+	}{
+		Title: "Go on Vercel",
+	}
+
+	err = tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
