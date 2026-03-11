@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+//go:embed templates/index.html
 var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
