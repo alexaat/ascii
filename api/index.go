@@ -7,6 +7,8 @@ import (
 )
 
 //go:embed templates/index.html
+//go:embed templates/error.html
+//go:embed templates/result.html
 var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -17,13 +19,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := struct {
-		Title string
-	}{
-		Title: "Go on Vercel",
-	}
+	// data := struct {
+	// 	Title string
+	// }{
+	// 	Title: "Go on Vercel",
+	// }
 
-	err = tmpl.Execute(w, data)
+	err = tmpl.Execute(w, nil)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
