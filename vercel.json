@@ -1,11 +1,7 @@
 {
   "routes": [
     {
-      "src": "/",
-      "dest": "/api/index.go"
-    },
-    {
-      "src": "/error",
+      "src": "/(.*)",
       "dest": "/api/index.go"
     }
   ]
