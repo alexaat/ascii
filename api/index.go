@@ -36,7 +36,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 func formHandler(w http.ResponseWriter) {
 	// Render the index.html template
-	tmpl, err := template.ParseFS(templates, "templates/error.html")
+	tmpl, err := template.ParseFS(templates, "templates/index.html")
 	if err != nil {
 		showError(w, "500 TEMPLATE NOT FOUND", http.StatusInternalServerError)
 		return
@@ -50,22 +50,27 @@ func formHandler(w http.ResponseWriter) {
 
 // Render the error.html template
 func showError(w http.ResponseWriter, message string, statusCode int) {
-	tmpl, err := template.ParseFiles("templates/error.html")
-	if err == nil {
-		w.WriteHeader(statusCode)
-		err := tmpl.Execute(w, message)
-		if err != nil {
+	w.WriteHeader(statusCode)
+	fmt.Fprintf(w, "<h1>ERROR</h1>")
+	fmt.Fprintf(w, message)
+	/*
+		tmpl, err := template.ParseFiles("templates/error.html")
+		if err == nil {
+			w.WriteHeader(statusCode)
+			err := tmpl.Execute(w, message)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprintf(w, "<h1>500 INTERNAL SERVER ERROR</h1>")
+				fmt.Fprintf(w, "<h3>500 Template not found</h3>")
+				fmt.Fprintf(w, err.Error())
+			}
+		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 			fmt.Fprintf(w, "<h1>500 INTERNAL SERVER ERROR</h1>")
 			fmt.Fprintf(w, "<h3>500 Template not found</h3>")
 			fmt.Fprintf(w, err.Error())
 		}
-	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "<h1>500 INTERNAL SERVER ERROR</h1>")
-		fmt.Fprintf(w, "<h3>500 Template not found</h3>")
-		fmt.Fprintf(w, err.Error())
-	}
+	*/
 }
 
 /*
