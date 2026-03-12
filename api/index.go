@@ -2,6 +2,7 @@ package handler
 
 import (
 	"embed"
+	"fmt"
 	"html/template"
 	"net/http"
 )
@@ -13,21 +14,57 @@ var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	tmpl, err := template.ParseFS(templates, "templates/index.html")
-	if err != nil {
-		http.Error(w, err.Error(), 500)
+	if r.Method == "GET" && r.URL.Path == "/" {
+		formHandler(w)
 		return
 	}
 
-	// data := struct {
-	// 	Title string
-	// }{
-	// 	Title: "Go on Vercel",
+	// tmpl, err := template.ParseFS(templates, "templates/index.html")
+	// if err != nil {
+	// 	http.Error(w, err.Error(), 500)
+	// 	return
 	// }
 
+	// err = tmpl.Execute(w, nil)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), 500)
+	// }
+
+	showError(w, "404 Unvalid URL", http.StatusNotFound)
+
+}
+
+func formHandler(w http.ResponseWriter) {
+	// Render the index.html template
+	tmpl, err := template.ParseFS(templates, "templates/index.html")
+	if err != nil {
+		showError(w, "500 TEMPLATE NOT FOUND", http.StatusInternalServerError)
+		return
+	}
 	err = tmpl.Execute(w, nil)
 	if err != nil {
-		http.Error(w, err.Error(), 500)
+		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+		return
+	}
+}
+
+// Render the error.html template
+func showError(w http.ResponseWriter, message string, statusCode int) {
+	tmpl, err := template.ParseFiles("templates/error.html")
+	if err == nil {
+		w.WriteHeader(statusCode)
+		err := tmpl.Execute(w, message)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Fprintf(w, "<h1>500 INTERNAL SERVER ERROR</h1>")
+			fmt.Fprintf(w, "<h3>500 Template not found</h3>")
+			fmt.Fprintf(w, err.Error())
+		}
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "<h1>500 INTERNAL SERVER ERROR</h1>")
+		fmt.Fprintf(w, "<h3>500 Template not found</h3>")
+		fmt.Fprintf(w, err.Error())
 	}
 }
 
