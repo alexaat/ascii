@@ -7,9 +7,8 @@ import (
 	"net/http"
 )
 
-//go:embed templates/index.html
-//go:embed templates/error.html
-//go:embed templates/result.html
+//go:embed templates/*.html
+
 var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
