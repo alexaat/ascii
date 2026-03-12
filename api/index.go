@@ -36,12 +36,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 func formHandler(w http.ResponseWriter) {
 	// Render the index.html template
-	tmpl, err := template.ParseFS(templates, "templates/index.html")
+	tmpl, err := template.ParseFS(templates, "templates/error.html")
 	if err != nil {
 		showError(w, "500 TEMPLATE NOT FOUND", http.StatusInternalServerError)
 		return
 	}
-	err = tmpl.Execute(w, nil)
+	err = tmpl.Execute(w, "TEST")
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return
