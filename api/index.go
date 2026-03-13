@@ -26,7 +26,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		}
 	case "/download":
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			downloadHandler(w, r)
 		} else {
 			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
