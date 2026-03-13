@@ -20,7 +20,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 	case "/ascii-art":
 		if r.Method == "POST" {
-			resultHandler(w)
+			resultHandler(w, r)
 		} else {
 			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		}
@@ -44,14 +44,29 @@ func formHandler(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func resultHandler(w http.ResponseWriter) {
+func resultHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the result.html template
+	banner := r.FormValue("banner")
+	text := r.FormValue("request")
+	b, err := readFile(banner + ".txt")
+	if err != nil {
+		showError(w, "505 BANNER NOT FOUND", http.StatusInternalServerError)
+		return
+	}
+	myMap := parseBanner(b)
+	result := printMessageIntoString(text, myMap)
+	//err = writeToFile(FilePath, []byte(result))
+	// if err != nil {
+	// 	showError(w, "500 Cannot write to file", http.StatusInternalServerError)
+	// 	return
+	// }
+
 	tmpl, err := template.ParseFS(templates, "templates/result.html")
 	if err != nil {
 		showError(w, "500 TEMPLATE NOT FOUND", http.StatusInternalServerError)
 		return
 	}
-	err = tmpl.Execute(w, nil)
+	err = tmpl.Execute(w, result)
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return
