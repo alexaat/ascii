@@ -19,28 +19,15 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		}
+	case "/ascii-art":
+		if r.Method == "GET" {
+			resultHandler(w)
+		} else {
+			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+		}
 	default:
 		showError(w, "404 Unvalid URL", http.StatusNotFound)
 	}
-
-	// if r.Method == "GET" && r.URL.Path == "/" {
-	// 	formHandler(w)
-	// 	return
-	// }
-
-	// tmpl, err := template.ParseFS(templates, "templates/index.html")
-	// if err != nil {
-	// 	http.Error(w, err.Error(), 500)
-	// 	return
-	// }
-
-	// err = tmpl.Execute(w, nil)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), 500)
-	// }
-
-	//showError(w, "404 Unvalid URL", http.StatusNotFound)
-
 }
 
 func formHandler(w http.ResponseWriter) {
@@ -55,6 +42,12 @@ func formHandler(w http.ResponseWriter) {
 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return
 	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func resultHandler(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "<h1>Result Handler</h1>")
 }
 
 // Render the error.html template
