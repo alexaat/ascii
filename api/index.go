@@ -14,7 +14,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	switch r.URL.Path {
 	case "/":
-		formHandler(w)
+		if r.Method == "GET" {
+			formHandler(w)
+		} else {
+			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+		}
 	default:
 		showError(w, "404 Unvalid URL", http.StatusNotFound)
 	}
