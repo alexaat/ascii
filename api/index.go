@@ -18,7 +18,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		}
-	case "ascii-art":
+	case "/ascii-art":
 		if r.Method == "POST" {
 			resultHandler(w)
 		} else {
