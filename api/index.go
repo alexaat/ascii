@@ -57,11 +57,11 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	myMap := utils.ParseBanner(b)
 	result := utils.PrintMessageIntoString(text, myMap)
-	//err = writeToFile(FilePath, []byte(result))
-	// if err != nil {
-	// 	showError(w, "500 Cannot write to file", http.StatusInternalServerError)
-	// 	return
-	// }
+	err = utils.WriteToFile(utils.FilePath, []byte(result))
+	if err != nil {
+		showError(w, "500 Cannot write to file", http.StatusInternalServerError)
+		return
+	}
 
 	tmpl, err := template.ParseFS(templates, "templates/result.html")
 	if err != nil {
@@ -95,6 +95,37 @@ func showError(w http.ResponseWriter, message string, statusCode int) {
 		fmt.Fprintf(w, err.Error())
 	}
 }
+
+// func createZip(w http.ResponseWriter) {
+// 	archive, err := os.Create(ZipFilePath)
+// 	if err != nil {
+// 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+// 		return
+// 	}
+// 	defer archive.Close()
+
+// 	zipWriter := zip.NewWriter(archive)
+
+// 	f1, err := os.Open(FilePath)
+// 	if err != nil {
+// 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+// 		return
+// 	}
+// 	defer f1.Close()
+
+// 	w1, err := zipWriter.Create(FilePath)
+// 	if err != nil {
+// 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+// 		return
+// 	}
+
+// 	if _, err := io.Copy(w1, f1); err != nil {
+// 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+// 		return
+// 	}
+
+// 	zipWriter.Close()
+// }
 
 /*
 package handler

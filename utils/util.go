@@ -70,3 +70,4 @@ func PrintMessageIntoString(s string, myMap map[rune][][]rune) string {
 	}
 	return result
 }
+

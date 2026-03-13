@@ -6,10 +6,8 @@ import (
 )
 
 var (
-	filePath          = "data.txt"
-	errorTemplatePath = "templates/error.html"
-	templatePath      = "templates/index.html"
-	zipFilePath       = "archive.zip"
+	FilePath    = "data.txt"
+	ZipFilePath = "archive.zip"
 )
 
 func ReadFile(s string, banners embed.FS) (string, error) {
