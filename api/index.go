@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 )
 
 //go:embed templates/*.html banners/*.txt
@@ -63,6 +64,14 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	myMap := utils.ParseBanner(b)
 	result := utils.PrintMessageIntoString(text, myMap)
+
+	file, err := os.Create("/tmp/result.txt")
+	if err != nil {
+		showError(w, "500 Cannot write to file "+err.Error(), http.StatusInternalServerError)
+	}
+	defer file.Close()
+	file.WriteString(result)
+
 	// err = utils.WriteToFile(utils.FilePath, []byte(result))
 	// if err != nil {
 	// 	showError(w, "500 Cannot write to file", http.StatusInternalServerError)
@@ -83,7 +92,15 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func downloadHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h3>Download</h3>")
+	format := r.FormValue("format")
+	if format == "zip" {
+		fmt.Fprintf(w, "<h3>Download as zip</h3>")
+		return
+	}
+	if format == "text" {
+		fmt.Fprintf(w, "<h3>Download as text</h3>")
+	}
+
 }
 
 // Render the error.html template
