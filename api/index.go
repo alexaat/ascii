@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"archive/zip"
 	utils "ascii/utils"
 	"embed"
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
 	"os"
 )
@@ -65,9 +67,9 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	myMap := utils.ParseBanner(b)
 	result := utils.PrintMessageIntoString(text, myMap)
 
-	file, err := os.Create("/tmp/result.txt")
+	file, err := os.Create(utils.FilePath)
 	if err != nil {
-		showError(w, "500 Cannot write to file "+err.Error(), http.StatusInternalServerError)
+		showError(w, "500 CANNOT WRITE TO FILE", http.StatusInternalServerError)
 	}
 	defer file.Close()
 	file.WriteString(result)
@@ -93,18 +95,50 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 
 func downloadHandler(w http.ResponseWriter, r *http.Request) {
 	format := r.FormValue("format")
-	if format == "zip" {
-		fmt.Fprintf(w, "<h3>Download as zip</h3>")
+	switch format {
+	case "zip":
+		createZip(w)
+		w.Header().Set("Content-Disposition", "attachment; filename="+utils.ZipFilePath)
+		w.Header().Set("Content-Type", "application/zip")
+		http.ServeFile(w, r, utils.ZipFilePath)
+	case "text":
+		w.Header().Set("Content-Disposition", "attachment; filename="+utils.FilePath)
+		w.Header().Set("Content-Type", "text/plain")
+		http.ServeFile(w, r, utils.FilePath)
+	}
+	w.WriteHeader(http.StatusOK)
+
+}
+
+func createZip(w http.ResponseWriter) {
+
+	archive, err := os.Create(utils.ZipFilePath)
+	if err != nil {
+		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return
 	}
-	if format == "text" {
-		filePath := "/tmp/result.txt"
-		//fmt.Fprintf(w, "<h3>Download as text</h3>")
-		w.Header().Set("Content-Disposition", "attachment; filename="+filePath)
-		w.Header().Set("Content-Type", "text/plain")
-		http.ServeFile(w, r, filePath)
+	defer archive.Close()
+
+	zipWriter := zip.NewWriter(archive)
+
+	f1, err := os.Open(utils.FilePath)
+	if err != nil {
+		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+		return
+	}
+	defer f1.Close()
+
+	w1, err := zipWriter.Create(utils.FilePath)
+	if err != nil {
+		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+		return
 	}
 
+	if _, err := io.Copy(w1, f1); err != nil {
+		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+		return
+	}
+	zipWriter.Close()
 }
 
 // Render the error.html template

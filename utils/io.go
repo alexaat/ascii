@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	FilePath    = "data.txt"
-	ZipFilePath = "archive.zip"
+	FilePath    = "/tmp/result.txt"
+	ZipFilePath = "/tmp/archive.zip"
 )
 
 func ReadFile(s string, banners embed.FS) (string, error) {
