@@ -63,11 +63,11 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	myMap := utils.ParseBanner(b)
 	result := utils.PrintMessageIntoString(text, myMap)
-	err = utils.WriteToFile(utils.FilePath, []byte(result))
-	if err != nil {
-		showError(w, "500 Cannot write to file", http.StatusInternalServerError)
-		return
-	}
+	// err = utils.WriteToFile(utils.FilePath, []byte(result))
+	// if err != nil {
+	// 	showError(w, "500 Cannot write to file", http.StatusInternalServerError)
+	// 	return
+	// }
 
 	tmpl, err := template.ParseFS(templates, "templates/result.html")
 	if err != nil {
