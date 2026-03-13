@@ -25,6 +25,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		}
+	case "/download":
+		if r.Method == "GET" {
+			downloadHandler(w, r)
+		} else {
+			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+		}
 	default:
 		showError(w, "404 Unvalid URL", http.StatusNotFound)
 	}
@@ -74,6 +80,10 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func downloadHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h3>Download</h3>")
 }
 
 // Render the error.html template
