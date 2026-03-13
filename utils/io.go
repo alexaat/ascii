@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"embed"
 	"os"
 )
 
@@ -11,8 +12,8 @@ var (
 	zipFilePath       = "archive.zip"
 )
 
-func ReadFile(s string) (string, error) {
-	data, err := os.ReadFile(s)
+func ReadFile(s string, banners embed.FS) (string, error) {
+	data, err := banners.ReadFile(s)
 	if err != nil {
 		return "", err
 	}

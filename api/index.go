@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-//go:embed templates/*.html
+//go:embed templates/*.html banners/*.txt
 var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +49,7 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the result.html template
 	banner := r.FormValue("banner")
 	text := r.FormValue("request")
-	b, err := utils.ReadFile(banner + ".txt")
+	b, err := utils.ReadFile(banner+".txt", templates)
 	if err != nil {
 		showError(w, "505 BANNER NOT FOUND: "+banner+".txt", http.StatusInternalServerError)
 		return
