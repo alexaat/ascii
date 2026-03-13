@@ -74,6 +74,8 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 	file.WriteString(result)
 
+	createZip(w)
+
 	// err = utils.WriteToFile(utils.FilePath, []byte(result))
 	// if err != nil {
 	// 	showError(w, "500 Cannot write to file", http.StatusInternalServerError)
@@ -97,7 +99,7 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 	format := r.FormValue("format")
 	switch format {
 	case "zip":
-		createZip(w)
+		//createZip(w)
 		w.Header().Set("Content-Disposition", "attachment; filename="+utils.ZipFilePath)
 		w.Header().Set("Content-Type", "application/zip")
 		http.ServeFile(w, r, utils.ZipFilePath)
