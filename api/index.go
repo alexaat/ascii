@@ -12,10 +12,17 @@ var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method == "GET" && r.URL.Path == "/" {
+	switch r.URL.Path {
+	case "/":
 		formHandler(w)
-		return
+	default:
+		showError(w, "404 Unvalid URL", http.StatusNotFound)
 	}
+
+	// if r.Method == "GET" && r.URL.Path == "/" {
+	// 	formHandler(w)
+	// 	return
+	// }
 
 	// tmpl, err := template.ParseFS(templates, "templates/index.html")
 	// if err != nil {
@@ -28,7 +35,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// 	http.Error(w, err.Error(), 500)
 	// }
 
-	showError(w, "404 Unvalid URL", http.StatusNotFound)
+	//showError(w, "404 Unvalid URL", http.StatusNotFound)
 
 }
 
