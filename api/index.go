@@ -98,7 +98,11 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if format == "text" {
-		fmt.Fprintf(w, "<h3>Download as text</h3>")
+		filePath := "/tmp/result.txt"
+		//fmt.Fprintf(w, "<h3>Download as text</h3>")
+		w.Header().Set("Content-Disposition", "attachment; filename="+filePath)
+		w.Header().Set("Content-Type", "text/plain")
+		http.ServeFile(w, r, filePath)
 	}
 
 }
