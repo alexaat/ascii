@@ -49,9 +49,10 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the result.html template
 	banner := r.FormValue("banner")
 	text := r.FormValue("request")
-	b, err := utils.ReadFile(banner+".txt", templates)
+	bannerUrl := "banners/" + banner + ".txt"
+	b, err := utils.ReadFile(bannerUrl, templates)
 	if err != nil {
-		showError(w, "505 BANNER NOT FOUND: "+banner+".txt", http.StatusInternalServerError)
+		showError(w, "505 BANNER NOT FOUND: "+bannerUrl, http.StatusInternalServerError)
 		return
 	}
 	myMap := utils.ParseBanner(b)
