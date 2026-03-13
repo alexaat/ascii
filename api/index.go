@@ -36,7 +36,7 @@ func formHandler(w http.ResponseWriter) {
 		showError(w, "500 TEMPLATE NOT FOUND", http.StatusInternalServerError)
 		return
 	}
-	err = tmpl.Execute(w, "TEST")
+	err = tmpl.Execute(w, nil)
 	if err != nil {
 		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
 		return
@@ -45,8 +45,18 @@ func formHandler(w http.ResponseWriter) {
 }
 
 func resultHandler(w http.ResponseWriter) {
+	// Render the result.html template
+	tmpl, err := template.ParseFS(templates, "templates/result.html")
+	if err != nil {
+		showError(w, "500 TEMPLATE NOT FOUND", http.StatusInternalServerError)
+		return
+	}
+	err = tmpl.Execute(w, nil)
+	if err != nil {
+		showError(w, "500 INTERNAL SERVER ERROR", http.StatusInternalServerError)
+		return
+	}
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "<h1>Result Handler</h1>")
 }
 
 // Render the error.html template
