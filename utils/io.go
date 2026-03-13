@@ -11,7 +11,7 @@ var (
 	zipFilePath       = "archive.zip"
 )
 
-func readFile(s string) (string, error) {
+func ReadFile(s string) (string, error) {
 	data, err := os.ReadFile(s)
 	if err != nil {
 		return "", err
@@ -19,6 +19,6 @@ func readFile(s string) (string, error) {
 	return string(data), nil
 }
 
-func writeToFile(fileName string, data []byte) error {
+func WriteToFile(fileName string, data []byte) error {
 	return os.WriteFile(fileName, data, 0644)
 }

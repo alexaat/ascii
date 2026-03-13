@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func parseBanner(s string) map[rune][][]rune {
+func ParseBanner(s string) map[rune][][]rune {
 	myMap := make(map[rune][][]rune)
 	ascii := 32
 	data := [][]rune{}
@@ -41,7 +41,7 @@ func parseBanner(s string) map[rune][][]rune {
 }
 
 // We want to print ascii-art banners via w (http.ResponseWriter)
-func printMessageIntoString(s string, myMap map[rune][][]rune) string {
+func PrintMessageIntoString(s string, myMap map[rune][][]rune) string {
 	result := ""
 
 	split := strings.Split(s, "\n")

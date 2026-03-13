@@ -1,6 +1,7 @@
 package handler
 
 import (
+	utils "ascii/utils"
 	"embed"
 	"fmt"
 	"html/template"
@@ -48,13 +49,13 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the result.html template
 	banner := r.FormValue("banner")
 	text := r.FormValue("request")
-	b, err := readFile(banner + ".txt")
+	b, err := utils.ReadFile(banner + ".txt")
 	if err != nil {
 		showError(w, "505 BANNER NOT FOUND", http.StatusInternalServerError)
 		return
 	}
-	myMap := parseBanner(b)
-	result := printMessageIntoString(text, myMap)
+	myMap := utils.ParseBanner(b)
+	result := utils.PrintMessageIntoString(text, myMap)
 	//err = writeToFile(FilePath, []byte(result))
 	// if err != nil {
 	// 	showError(w, "500 Cannot write to file", http.StatusInternalServerError)
