@@ -11,20 +11,24 @@ import (
 var templates embed.FS
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-
 	switch r.URL.Path {
 	case "/":
-		if r.Method == "GET" {
+		switch r.Method {
+		case "GET":
 			formHandler(w)
-		} else {
-			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
-		}
-	case "/ascii-art":
-		if r.Method == "GET" {
+		case "POST":
 			resultHandler(w)
-		} else {
+		default:
 			showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		}
+
+		// if r.Method == "GET" {
+		// 	formHandler(w)
+		// } else if r.Method == "POST" {
+		// 	resultHandler(w)
+		// } else {
+		// 	showError(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+		// }
 	default:
 		showError(w, "404 Unvalid URL", http.StatusNotFound)
 	}
